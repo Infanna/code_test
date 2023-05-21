@@ -64,7 +64,7 @@ with DAG(
     download_file_from_raw_zone_task = download_file_from_raw_zone()
 
     @task
-    def mesure_data_quality(file: str):
+    def measure_data_quality(file: str):
         import pandas as pd
 
         df = pd.read_csv(file, delimiter="|")
@@ -82,7 +82,7 @@ with DAG(
             print("Pass")
             return True
 
-    mesure_data_quality_task = mesure_data_quality(download_file_from_raw_zone_task)
+    measure_data_quality_task = measure_data_quality(download_file_from_raw_zone_task)
 
     @task
     def transform_to_parquet(file: str) -> str:
@@ -155,7 +155,7 @@ with DAG(
     (
         start
         >> download_file_from_raw_zone_task
-        >> mesure_data_quality_task
+        >> measure_data_quality_task
         >> transform_to_parquet_task
         >> upload_file_to_cleaned_zone_task
         >> load_cleaned_data_to_warehouse
