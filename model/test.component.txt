@@ -1,0 +1,102 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ProductSellingTradeComponent } from './product-selling-trade.component';
+import { ITrades } from 'src/app/shared/model/price-option.model';
+import { Component, DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+const mockTradeData: ITrades[] = [
+  {
+    tradeDiscountID: "12345",
+    tradeName: "TPXXXXXX01",
+    normalPrice: "43900",
+    priceDiscount: "11000",
+    durationContract: "2",
+    advancePay: { amount: "3745" },
+    package: "399",
+    freeGoods: "ตุ๊กตาเอไอเอาอุ่นใจ"
+  },
+  {
+    tradeDiscountID: "12346",
+    tradeName: "TPXXXXXX02",
+    normalPrice: "21900",
+    priceDiscount: "11000",
+    durationContract: "2",
+    advancePay: { amount: "2745" },
+    package: "499",
+    freeGoods: "ตุ๊กตาเอไอเอาอุ่นมาก"
+  }
+];
+
+describe('ProductSellingTradeComponent', () => {
+  let component: ProductSellingTradeComponent;
+  let fixture: ComponentFixture<ProductSellingTradeComponent>;
+
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ProductSellingTradeComponent]
+    })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(ProductSellingTradeComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should show title', () => {
+    component.isTradeShow = "1"
+    fixture.detectChanges();
+    const tag: Element | null = document.querySelector('[data-testid="trade-title"]')
+    expect(tag?.innerHTML).toContain('Trade Name : สำหรับลูกค้าปัจจุบัน');
+  })
+
+  it('component attr should be active = "true" reflected by selected trade', () => {
+    component.isTradeShow = "1"
+    component.selectTrade(0);
+    fixture.detectChanges();
+    expect(document.querySelectorAll('.scroll-item')[0].getAttribute('active')).toEqual('true');
+  })
+
+  describe("test function", () => {
+    it('[dataTestID] should show follow format `trade-[tradeDiscountID]`', () => {
+      expect(component.dataTestID(mockTradeData[0].tradeDiscountID)).toEqual("trade-12345")
+      expect(component.dataTestID(mockTradeData[1].tradeDiscountID)).toEqual("trade-12346")
+    })
+
+    it('[netPrice] should equal normalPrice - priceDiscount', () => {
+      const mockTrade = mockTradeData[0]
+      expect(component.netPrice(mockTrade.normalPrice, mockTrade.priceDiscount)).toEqual("32900")
+    })
+
+    it('[selectTrade] tradeNumber should equal input index type number', () => {
+      component.selectTrade(1)
+      expect(component.tradeNumber).toEqual(1)
+
+      component.selectTrade(1)
+      expect(component.tradeNumber).not.toEqual("1")
+    })
+
+    it('[numberWithComma] should number reture with comma', () => {
+      expect(component.numberWithComma(100)).toEqual('100')
+      expect(component.numberWithComma(1000)).toEqual('1,000')
+      expect(component.numberWithComma(1000000)).toEqual('1,000,000')
+    })
+
+    it('[showPackage] should have a proper format', () => {
+      const testShowPackage = (minimumPackage: number, maximumPackage: number | null, expectPackage: string): void => {
+        const actual = component.showPackage(minimumPackage, maximumPackage)
+        expect(actual).toEqual(expectPackage)
+      }
+      testShowPackage(0, null, "0 บาทขึ้นไป")
+      testShowPackage(499, null, "499 บาทขึ้นไป")
+      testShowPackage(1499, null, "1,499 บาทขึ้นไป")
+      testShowPackage(499, 999, "499-999 บาท")
+      testShowPackage(999, 1999, "999-1,999 บาท")
+      testShowPackage(1499, 1999, "1,499-1,999 บาท")
+    })
+  })
+});
+
