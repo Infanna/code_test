@@ -9,13 +9,11 @@ def gcd(a, h):
         a = h
         h = temp
 
-p = 53
-q = 59
-e = 11
+p = 3
+q = 7
 n = p * q
+e = 2
 z = (p - 1) * (q - 1)
-k = 2
-d = (k * n + 1) % e
 
 while e < z:
     if gcd(e, z) == 1:
@@ -23,14 +21,19 @@ while e < z:
     else:
         e = e + 1
 
-print("n=%d\ne=%d\nd=%d" % (n, e, d))
+k = 2
+d = ((k * z) + 1) / e
 
-painText = 892
+print("n=%f\ne=%f\nd=%f" % (n, e, d))
+
+painText = 12.0
 if painText >= 0 and painText < n:
-    print("painText=%d" % painText)
+    print("painText=", painText)
 
-    encrypted = (painText ^ d) % n
-    print("encrypted=%d" % encrypted)
+    encrypted = math.fmod(pow(painText, e), n)
+    print("encrypted=", encrypted)
 
-    decrypted = (encrypted ^ d) % n
-    print("decrypted=%d" % decrypted)
+    decrypted = math.fmod(pow(encrypted, d), n)
+    print("decrypted=", decrypted)
+else:
+    print("function not supported this painText")
