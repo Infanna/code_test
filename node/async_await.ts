@@ -1,31 +1,32 @@
 function getPromise() {
     var promise = new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("Promise Executed...");
-        resolve("Sample data");
-      }, 1000); //execute in 1s
+        setTimeout(() => {
+            console.log("Promise Executed...");
+            resolve("Sample data 1");
+        }, 1000); //execute in 1s
     });
-  }
+}
 
-  function data() {
+function data() {
     var array = ["data1", "data2"];
+    
     var promise = getPromise();
     console.log(array);
-  }
+}
 
-  data();
+data();
 
 function getPromise2() {
     var promise = new Promise((resolve) => {
         setTimeout(() => {
             console.log("Promise Executed...");
-            resolve("Sample data");
+            resolve("Sample data 2");
         }, 1000); //execute in 1s
     });
 }
 
 async function data2() {
-    var array = ["data1", "data2"];
+    var array = ["data3", "data4"];
     var promise = await getPromise2();
     console.log(array);
 }
@@ -36,7 +37,7 @@ function getPromise3() {
     return new Promise((resolve) => {
         setTimeout(() => {
             console.log("Promise Executed...");
-            resolve("Sample Data");
+            resolve("Sample Data 3");
         }, 1000);
     });
 }
@@ -44,8 +45,12 @@ function getPromise3() {
 // declaring async function
 async function data3() {
 
-    var array = ["data1", "data2"];
-    var promise = await getPromise3();
+    var array = ["data5", "data6"];
+    var promise = await getPromise3().then((res) => {
+        console.log(res
+    );
+
+    });
     console.log(array);
 
 }
