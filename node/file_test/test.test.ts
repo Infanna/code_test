@@ -1,5 +1,8 @@
-function mutix(a: number, b: number) {
-    return a + b
-}
+import { muti } from '../ts/test'
 
-console.log(muti(1, 2));
+
+describe('test.ts', () => {
+    it('muti', () => {
+        expect(muti(1, 2)).toEqual(3)
+    })
+})
