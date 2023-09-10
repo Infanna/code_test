@@ -71,12 +71,12 @@ const paymentsData = {
                     "bankDescTh": "กรุงศรีอยุธยา จำกัด (มหาชน)",
                     "imageUrl": "https://sit-admin-cpc.cdc.ais.th/admin-fe/assets/files/images/BAY_BAY.png",
                     "installments": [
-                        {
-                            "installmentId": "283",
-                            "installmentRate": "0",
-                            "installmentTerms": "6",
-                            "balloonMonth": null
-                        }
+                        // {
+                        //     "installmentId": "283",
+                        //     "installmentRate": "0",
+                        //     "installmentTerms": "6",
+                        //     "balloonMonth": null
+                        // }
                     ]
                 },
                 {
@@ -658,12 +658,13 @@ function getpayment(paymentData) {
     const mergedArray: any[] = [].concat(...data);
     //console.log("===>>>", mergedArray)
 
-    // getPaymentWithFullCreditCard('1100', mergedArray)
+    getPaymentWithFullCreditCard('1100', mergedArray)
     getPaymentWithInstallmentCreditCard(mergedArray)
 
 }
 
 async function getPaymentWithFullCreditCard(locationCode: string, paymentByCreditCard: any[]) {
+    console.log(paymentByCreditCard)
     const banksProData: any = bankPromotion
     const mapBankPromotion: any[] = banksProData.banks.map((item) => (
         {
@@ -673,12 +674,12 @@ async function getPaymentWithFullCreditCard(locationCode: string, paymentByCredi
             imageUrl: item.imageUrl
         }
     ))
-
+        console.log('xx')
 
     const paymentWithNoInstallments = paymentByCreditCard.filter(item => item.installments.length === 0)
-    // console.log('paymentWithNoInstallments===>', paymentWithNoInstallments)
+    console.log('paymentWithNoInstallments===>', paymentWithNoInstallments)
     const paymentFullPaidMerge = [].concat(...mapBankPromotion, ...paymentWithNoInstallments);
-    console.log('paymentFullPaidMerge===>', paymentFullPaidMerge)
+    // console.log('paymentFullPaidMerge===>', paymentFullPaidMerge)
     const removeDuplicateBank = new Set();
 
     const paymentFullPaid = paymentFullPaidMerge.filter((item) => {
@@ -689,9 +690,10 @@ async function getPaymentWithFullCreditCard(locationCode: string, paymentByCredi
         return false;
     });
 
-    console.log('===>', paymentFullPaid)
+    //console.log('===>', paymentFullPaid)
 }
 
+getpayment(paymentsData)
 
 async function getPaymentWithInstallmentCreditCard(paymentByCreditCard: any[]): Promise<any[]> {
     const groupedMap = new Map<string, any>();
@@ -710,10 +712,10 @@ async function getPaymentWithInstallmentCreditCard(paymentByCreditCard: any[]): 
     const removeDuplicateInstallmentId = new Set();
     paymentInstallment.forEach((item) => {
         item.installments = item.installments.filter((installment: any) => {
-        	removeDuplicateInstallmentId.add(installment.installmentId);
+            removeDuplicateInstallmentId.add(installment.installmentId);
         })
     });
-    console.log(Array.from( removeDuplicateInstallmentId.values()))
+    console.log(Array.from(removeDuplicateInstallmentId.values()))
     // paymentInstallment.forEach((item) => {
     // 	item.installments = item.installments.filter((installment: any) => {
     // 		if (!removeDuplicateInstallmentId.has(installment.installmentId)) {
@@ -739,4 +741,106 @@ async function getPaymentWithInstallmentCreditCard(paymentByCreditCard: any[]): 
 }
 
 
-getpayment(paymentsData)
+// getpayment(paymentsData)
+
+
+function fillterApple(data) {
+    const payment = {
+        statusCode: '20000',
+        statusDesc: 'success',
+        payments: [
+            {
+                cardType: '',
+                method: 'CA',
+                banks: [],
+            },
+            {
+                cardType: '',
+                method: 'CC',
+                banks: [],
+            },
+        ],
+    };
+    console.log(payment.payments.map((item) => item.method))
+    // console.log(data.payments.filter((item) => (payment.payments.map((item) => item.method)).includes(item.method)))
+    payment.payments = data.payments.filter((item) => (payment.payments.map((item) => item.method)).includes(item.method))
+    console.log(data)
+}
+
+// fillterApple(expected)
+
+function testFilter(response) {
+    const CA = 'CAxxx'
+    const LS = 'LSxxx'
+    const CC = 'CCxxx'
+    let payment = []
+    //const filterByMethod = response.payments.filter((item) => filterMethod.includes(item.method)).map((x) => duplicateMethod.add(x.method))
+    // const filterByMethod = response.payments.filter((item: any) => {
+    //     if (filterMethod.includes(item.method)) {
+    //         return true;
+    //     }
+    //     return false;
+    // }).forEach((x) => {
+    //     console.log(x)
+    //     if (x.method == 'CA') {
+    //         payment.push(CA)
+    //     }
+    //     if (x.method == 'LS') {
+    //         payment.push(LS)
+    //     }
+    //     if (x.method == 'CC') {
+    //         payment.push(CC)
+    //     }
+    // });
+
+    const filterMethod = ['CA', 'LS', 'CC']
+    const ducplicateMethod = new Set();
+    response.payments.forEach(async (item: any) => {
+        if (!ducplicateMethod.has(item.method) && filterMethod.includes(item.method)) {
+            ducplicateMethod.add(item.method)
+            if (item.method == 'CA') {
+                payment.push(CA)
+            }
+            if (item.method == 'LS') {
+                payment.push(LS)
+            }
+            if (item.method == 'CC') {
+                payment.push(CC)
+            }
+        } else if (!filterMethod.includes(item.method)) {
+            payment.push({
+                method: item.method,
+                cardType: item.cardType,
+                banks: item.banks,
+                banksFullPaid: item.banksFullPaid || [],
+                banksInstallment: item.banksInstallment || [],
+                methodName: item.methodName || item.method,
+                methodNameTh: item.methodNameTh || item.method,
+            });
+        }
+    });
+
+    console.log(payment)
+    console.log(ducplicateMethod)
+}
+
+// testFilter(paymentsData)
+
+function filter(expected) {
+    const x = expected.payments.filter((item) => {
+        console.log(item.banksFullPaid.length)
+        console.log(item.banksInstallment.length)
+        if (item.banksFullPaid.length === 0 && item.banksInstallment === 0) {
+            console.log(item.banksInstallment.length)
+            return false
+        }
+        return true
+
+    })
+    // console.log(expected)
+    // console.log("=======")
+    // console.log(x)
+}
+
+// filter(expected)
+
