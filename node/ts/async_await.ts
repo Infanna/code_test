@@ -21,7 +21,7 @@ function getPromise2() {
         setTimeout(() => {
             console.log("Promise Executed...");
             resolve("Sample data 2");
-        }, 1000); //execute in 1s
+        }, 1000); //execute in 1
     });
 }
 

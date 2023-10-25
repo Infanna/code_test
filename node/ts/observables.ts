@@ -5,13 +5,11 @@ const observable = interval(1000);
 const subscription = observable.subscribe(v => {
     if (v === 3) {
         subscription.unsubscribe();
-        xxx()
-        return 3
-   
+        xxx(v)
     }
     console.log(v);
 });
 
-function xxx(){
-    console.log(subscription)
+function xxx(v: number){
+    console.log('xxxxx' + v)
 }
