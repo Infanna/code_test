@@ -1,2 +1,5 @@
 # code_test
-xx
+programming language
+- golang
+- typescript
+- python
