@@ -1,12 +1,12 @@
 # code_test
-programming language
+Programming language
 - golang
 - typescript
 - python
 
-framwork
+Framwork
 - angular
 - react
 
-automate testing
+Automate testing
 - playwright
