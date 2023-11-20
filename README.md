@@ -4,10 +4,12 @@ Programming language
 - typescript
 - python
 
-Framwork
+Framwork frontend
 - angular
 - react
-- airflow
 
 Automate testing
 - playwright
+
+Data pipeline
+- airflow
