@@ -1,4 +1,4 @@
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 // const subject1 = new BehaviorSubject(1);
 // console.log(subject1.value);
