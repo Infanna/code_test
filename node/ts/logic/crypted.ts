@@ -35,5 +35,3 @@ async function test() {
     decryptedText: decryptedText.toString(),
   });
 }
-
-test();
