@@ -4,8 +4,10 @@ async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function randomNumber() {
-  return Math.floor(Math.random() * 1000);
+function random() {
+  const crypto = require("crypto");
+  const uuid = crypto.randomUUID();
+  return uuid;
 }
 
 async function connect() {
@@ -17,28 +19,30 @@ async function connect() {
   return client;
 }
 
-async function setkey(client: any, time: number, host: number) {
-  await sleep(time);
-  const value = `(${host}): ${time}`;
+async function setkey(client: any, number: number, host: number) {
+  await sleep(Math.floor(Math.random() * 10));
+  const value = `(${host}): ${number}`;
   console.log(value);
-  await client.set("key", value);
+  await client.set(
+    "/DTWS/api/productCrossSell/v1/queryProductCrossSelling",
+    value
+  );
+  return host;
 }
 
 async function redis() {
   const client = await connect();
-  setkey(client, randomNumber(), 1);
-  setkey(client, randomNumber(), 2);
-  setkey(client, randomNumber(), 3);
-  await sleep(1000);
-  const value = await client.get("key");
+  Promise.all([
+    setkey(client, random(), 1),
+    setkey(client, random(), 2),
+    setkey(client, random(), 3),
+  ]);
+
+  await sleep(100);
+  const value = await client.get(
+    "/DTWS/api/productCrossSell/v1/queryProductCrossSelling"
+  );
   console.log("value", value);
 }
 
 redis();
-
-// async function hostName1() {
-//   const num = Math.floor(Math.random() * 1000);
-//   console.log("hostName1", num);
-//   await sleep(num);
-//   text.key = 1;
-// }
