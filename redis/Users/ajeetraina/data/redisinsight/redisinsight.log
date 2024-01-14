@@ -1,0 +1,8 @@
+WARNING 2024-01-14 12:01:46,146 django.request Bad Request: /api/instance/
+WARNING 2024-01-14 12:03:44,580 django.request Bad Request: /api/instance/273d1242-728a-477b-8e0a-914b28725f73/redistimeseries/query/
+WARNING 2024-01-14 12:09:08,517 django.request Bad Request: /api/instance/273d1242-728a-477b-8e0a-914b28725f73/execute-bulk-operation/
+WARNING 2024-01-14 12:09:09,449 django.request Bad Request: /api/instance/273d1242-728a-477b-8e0a-914b28725f73/execute-bulk-operation/
+WARNING 2024-01-14 12:09:09,883 django.request Bad Request: /api/instance/273d1242-728a-477b-8e0a-914b28725f73/execute-bulk-operation/
+WARNING 2024-01-14 12:09:10,281 django.request Bad Request: /api/instance/273d1242-728a-477b-8e0a-914b28725f73/execute-bulk-operation/
+WARNING 2024-01-14 12:09:10,684 django.request Bad Request: /api/instance/273d1242-728a-477b-8e0a-914b28725f73/execute-bulk-operation/
+WARNING 2024-01-14 12:09:21,775 django.request Bad Request: /api/instance/273d1242-728a-477b-8e0a-914b28725f73/execute-bulk-operation/
