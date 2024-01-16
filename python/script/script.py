@@ -1,10 +1,17 @@
+### change data
+path_to_git_folder = "/Users/few/projects/odds/ais"
+year = '2024'
+owners = ["Infanna", "patcharachart"]
+###
+
 import os
 import pandas as pd
 
 result = pd.DataFrame()
 result_all = pd.DataFrame()
-path_prefix = "/Users/few/projects/odds/ais"
-owners = ["Infanna", "patcharachart"]
+absolute_path = os.path.dirname(__file__)
+path_save_text_file_prefix = f"{absolute_path}/data"
+
 repo = [
     {"name": "device-sales", "path": "mychannel-device-sales"},
     {"name": "sale-batch", "path": "mychannel-sale-batch"},
@@ -17,27 +24,46 @@ repo = [
     {"name": "new-payments", "path": "mychannel-new-payments"},
 ]
 
+month_number = str(input("Enter month number (1-12): "))
+if len(month_number) == 1:
+    month_number = "0" + month_number
+
+
 for owner in owners:
-    git_command = f"git --no-pager log --author='{owner}' --pretty=format:'%h - %an, %ar, %aD : %s' --since='2024-01-01' --until='2024-01-31'"
+    git_command = f"git --no-pager log --author='{owner}' --pretty=format:'%h - %an, %ar, %aD : %s' --since='{year}-{month_number}-01' --until='{year}-{month_number}-31'"
+
+    
     for r in repo:
         path_repo = r["path"]
-        file_path = f"/Users/few/projects/code_test/python/script/data/file/{path_repo}.txt"
-        if os.path.exists(file_path):
-            os.remove(file_path)
-            print(f"File '{file_path}' removed successfully.")
+        name_file_text = f"{owner}_{path_repo}_{year}_{month_number}.txt"
+        path_save_text_file = (
+            f"{path_save_text_file_prefix}/file/{name_file_text}"
+        )
+        if os.path.exists(path_save_text_file):
+            os.remove(path_save_text_file)
+            print(f"File '{path_save_text_file}' removed successfully.")
         else:
-            print(f"File '{file_path}' does not exist.")
+            print(f"File '{path_save_text_file}' does not exist.")
 
-        textFile = f"/Users/few/projects/code_test/python/script/data/file/{path_repo}.txt"
-        os.system(f"cd {path_prefix}/{path_repo} && {git_command} >> {textFile}")
+        os.system(
+            f"cd {path_to_git_folder}/{path_repo} && {git_command} >> {path_save_text_file}"
+        )
 
     for r in repo:
         path_repo = r["path"]
+        name_file_text = f"{owner}_{path_repo}_{year}_{month_number}.txt"
         df = pd.read_csv(
-            f"/Users/few/projects/code_test/python/script/data/file/{path_repo}.txt",
+            f"{path_save_text_file_prefix}/file/{name_file_text}",
             sep=", | - | : ",
             engine="python",
-            names=["commit_code", "owner", "history", "day", "timestamp", "commit_message"],
+            names=[
+                "commit_code",
+                "owner",
+                "history",
+                "day",
+                "timestamp",
+                "commit_message",
+            ],
             dtype={
                 "commit_code": "string",
                 "owner": "string",
@@ -63,13 +89,14 @@ for owner in owners:
         df = df.reindex(columns=columns_titles)
 
         result = pd.concat([result, df], ignore_index=True)
-        result = result.sort_values(by=["date_time", "repo_name"], ascending=True)
 
     result_all = pd.concat([result_all, result], ignore_index=True)
     result_all = result_all.sort_values(by=["date_time", "repo_name"], ascending=True)
 
 result_all.to_csv(
-    "/Users/few/projects/code_test/python/script/data/ais_log/all_log.csv",
+    f"{path_save_text_file_prefix}/log/all_log_{year}_{month_number}.csv",
     index=False,
 )
 
+from IPython.display import display
+display(result_all[['repo_name', 'commit_message', 'history', 'timestamp']].to_string(index=False))
