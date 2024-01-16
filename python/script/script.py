@@ -1,6 +1,6 @@
 ### change data
 path_to_git_folder = "/Users/few/projects/odds/ais"
-year = '2024'
+year = "2024"
 owners = ["Infanna", "patcharachart"]
 ###
 
@@ -32,18 +32,12 @@ if len(month_number) == 1:
 for owner in owners:
     git_command = f"git --no-pager log --author='{owner}' --pretty=format:'%h - %an, %ar, %aD : %s' --since='{year}-{month_number}-01' --until='{year}-{month_number}-31'"
 
-    
     for r in repo:
         path_repo = r["path"]
         name_file_text = f"{owner}_{path_repo}_{year}_{month_number}.txt"
-        path_save_text_file = (
-            f"{path_save_text_file_prefix}/file/{name_file_text}"
-        )
+        path_save_text_file = f"{path_save_text_file_prefix}/file/{name_file_text}"
         if os.path.exists(path_save_text_file):
             os.remove(path_save_text_file)
-            print(f"File '{path_save_text_file}' removed successfully.")
-        else:
-            print(f"File '{path_save_text_file}' does not exist.")
 
         os.system(
             f"cd {path_to_git_folder}/{path_repo} && {git_command} >> {path_save_text_file}"
@@ -98,4 +92,14 @@ result_all.to_csv(
     index=False,
 )
 
-print(result_all[['repo_name', 'commit_message', 'history', 'timestamp']].to_string(index=False))
+print(
+    result_all[["repo_name", "commit_message", "history", "timestamp"]].to_string(
+        index=False
+    )
+)
+
+display = "==============================="
+print(display)
+print(">>> || total commit:", len(result_all), end=" ")
+print("|| <<<")
+print(display)
