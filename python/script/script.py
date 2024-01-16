@@ -98,5 +98,4 @@ result_all.to_csv(
     index=False,
 )
 
-from IPython.display import display
-display(result_all[['repo_name', 'commit_message', 'history', 'timestamp']].to_string(index=False))
+print(result_all[['repo_name', 'commit_message', 'history', 'timestamp']].to_string(index=False))
