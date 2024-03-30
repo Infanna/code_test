@@ -103,3 +103,23 @@ print(display)
 print(">>> || total commit:", len(result_all), end=" ")
 print("|| <<<")
 print(display)
+
+
+
+
+export interface IHandsetCpc {
+  company: string;
+  brand: string;
+  model: string;
+  color?: string;
+  matCode: string;
+  commercialName: string;
+  productType: string;
+  productSubtype: string;
+  effectiveDate: string;
+  groupName?: string;
+  thumbnail?: string;
+  colorCode?: string;
+  priceInclVat: number;
+  images: ImageUri[];
+}

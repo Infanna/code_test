@@ -3,18 +3,24 @@ import { promisify } from "util";
 
 async function test() {
   const iv = Buffer.from([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+    200, 55, 111, 113, 159, 116, 42, 119, 143, 111, 26, 147, 52, 159, 239, 175,
   ]);
 
   const password =
-    "9593438667734399199910675238091027246277363238197309521544042666518529129363388713175473532241091816";
+    "DvWneD5dD8oQYIR7YVXJWD3xtU8WV1kPqWe9XEWUaHMwzjbfPe9pyDvsTnLHELDaw1tJcplk2pHGG8dlz9zayggJ45boHX51kKqp";
   const local =
     "3292991192794382243202739846476592775358594699689285294234224333457617758687507010662708820365066399";
+  const dev =
+    "GCrYYDxsjqqmpLCGxq9dMvsYkBSlZfG0aWjoiXDykti0uIKvyoBAqF4uUsXOd5MliszYlTV0ifoKt7gMxW378YFJ2bQ5DRsmUykO";
+  const sit =
+    "OvIQ3nfFkqkobZpf1Ora6jisMQkYqdH8UoStFbjYrVVonsZWssBYvWGjgyVxjqncNTuXCcrgmSweOyumzs5vT2rSk8DJp7AekXr3";
+  const prod =
+    "s4KFUBe0RxZ3RYc3lsN1ijGMu89zTYWlIhsdpBvZWxKmWxcC79cIQhWyUTi5zJqMiUurqVqFaTY0U0tEMfzPbuauE1epgsanwsaU";
 
   const key = (await promisify(scrypt)(password, "salt", 32)) as Buffer;
   const cipher = createCipheriv("aes-256-ctr", key, iv);
 
-  const textToEncrypt = local;
+  const textToEncrypt = prod;
   const encryptedText = Buffer.concat([
     cipher.update(textToEncrypt),
     cipher.final(),
@@ -35,3 +41,5 @@ async function test() {
     decryptedText: decryptedText.toString(),
   });
 }
+
+test();

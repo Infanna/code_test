@@ -91,27 +91,71 @@ async function sleep(ms) {
 // //   console.log(p);
 // // });
 
-function testR() {
-  // let c = true;
-  // let array = [];
-  // var crypto = require("crypto");
-  // let number = 0;
+// function testR() {
+//   // let c = true;
+//   // let array = [];
+//   // var crypto = require("crypto");
+//   // let number = 0;
 
-  // while (c) {
-  //   var id = crypto.randomBytes(20).toString("hex");
-  //   if (array.find((e) => e == id)) {
-  //     c = false;
-  //   } else {
-  //     array.push(id);
-  //   }
-  //   console.log("id", `(${number}): ${id}`);
-  //   number++
-  //   sleep(1000);
-  // }
-  var crypto = require("crypto");
-  let myuuid = crypto.randomUUID();
+//   // while (c) {
+//   //   var id = crypto.randomBytes(20).toString("hex");
+//   //   if (array.find((e) => e == id)) {
+//   //     c = false;
+//   //   } else {
+//   //     array.push(id);
+//   //   }
+//   //   console.log("id", `(${number}): ${id}`);
+//   //   number++
+//   //   sleep(1000);
+//   // }
+//   var crypto = require("crypto");
+//   let myuuid = crypto.randomUUID();
 
-  console.log("Your UUID is: " + myuuid);
+//   console.log("Your UUID is: " + myuuid);
+// }
+
+// testR();
+
+function testx() {
+  const tOut = (t) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (t === 200) {
+          reject(`Rejected in ${t}`);
+        } else {
+          resolve(`Completed in ${t}`);
+        }
+      }, t);
+    });
+  };
+
+  // const durations = [200, 100, 300]
+
+  // // Array contains some time durations
+  // const promises = [] //empty array
+
+  // durations.map((duration) => {
+  //     promises.push(tOut(duration))
+  //     // Pushing durations in the promises array
+  // })
+
+  // // Passing an array of pending promises to Promise.all
+  // Promise.allSettled(promises).then(response => response.map((e) => {
+  //   console.log(e.status);
+
+  // }))
+  // Promise.all cannot be resolved, as one of the
+  // promises passed, got rejected.
+
+  // Promise.all throws an error.
 }
 
-testR();
+// testx();
+
+function test2() {
+  const [x] = [{ name: 1 }, { age: 2 }];
+  console.log(x);
+//   console.log(y);
+}
+
+test2()
