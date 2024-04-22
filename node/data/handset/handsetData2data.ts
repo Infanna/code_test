@@ -1,4 +1,4 @@
-const x = [
+export const handset = [
   {
     company: "AWN",
     productType: "DEVICE",
