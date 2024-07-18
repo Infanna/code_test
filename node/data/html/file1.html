@@ -1,0 +1,13 @@
+<div>file1</div>
+<iframe src="file2.html" title="file 2"></iframe>
+<iframe src="file3.html" title="file 3"></iframe>
+<script>
+  window.addEventListener("message", function (event) {
+    if (event.data.key === "packageMessage") {
+      console.log("Received message from child:", event.data.value);
+    }
+    if (event.data.key === "careMessage") {
+      console.log("Received message from child:", event.data.value);
+    }
+  });
+</script>

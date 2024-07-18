@@ -1,18 +1,22 @@
-function testx() {
-  var date = new Date();
+import { Subject, combineLatest } from "rxjs";
 
-  // // create a DateTimeFormat object with specific options
-  // var dateFormat = new Intl.DateTimeFormat("en-US", {
-  //   timeZone: "America/New_York",
-  // });
+const mobileCareCreated$ = new Subject<boolean>();
+const packageCreated$ = new Subject<boolean>();
+mobileCareCreated$.next(true);
 
-  const result = date.toLocaleDateString('th-TH', {
-  })
+function onListen() {
+//   console.log("xxx");
 
-  // use the format() method to display the date and time in the specified format
-  // (e.g. "12/8/2020, EST")
-  // const formatted = dateFormat.format(date);
-  console.log("xx", result);
+  combineLatest([mobileCareCreated$, packageCreated$]).subscribe((res) => {
+    console.log('res', res);
+    
+    const [careCreated, packageCreated] = res;
+    console.log("careCreated", careCreated);
+    console.log("packageCreated", packageCreated);
+  });
 }
-
-testx();
+// mobileCareCreated$.next(true);
+onListen();
+mobileCareCreated$.next(false);
+packageCreated$.next(true);
+// mobileCareCreated$.unsubscribe();
