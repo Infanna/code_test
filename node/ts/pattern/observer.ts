@@ -2,7 +2,7 @@ class Observer {
   private data: string[] = [];
   private value: any;
   private pipeFunction;
-  private subFunction;
+  private subFunctions = [];
 
   signal(subject) {
     const status = subject.getStatus();
@@ -13,8 +13,10 @@ class Observer {
     } else {
       this.value = this.data[this.data.length - 1];
     }
-    if (this.subFunction) {
-      this.subFunction(this.value);
+    if (this.subFunctions.length > 0) {
+      this.subFunctions.forEach((subFunction) => {
+        subFunction(this.value);
+      });
     }
   }
 
@@ -33,7 +35,7 @@ class Observer {
   }
 
   subscribe(subFunction: Function) {
-    this.subFunction = subFunction;
+    this.subFunctions.push(subFunction);
   }
 }
 
@@ -69,14 +71,17 @@ subject.register(observer3);
 subject.update("test0");
 subject.update("test1");
 
-observer1.pipe("firstValueFrom").subscribe((value) => {
-  console.log(value);
-});
-observer2.pipe("all").subscribe((value) => {
-  console.log(value);
+// observer1.pipe("firstValueFrom").subscribe((value) => {
+//   console.log(value);
+// });
+// observer2.pipe("all").subscribe((value) => {
+//   console.log(value);
+// });
+observer3.subscribe((value) => {
+  console.log("yyy" + value);
 });
 observer3.subscribe((value) => {
-  console.log(value);
+  console.log("xxx" + value);
 });
 
 subject.update("test2");
