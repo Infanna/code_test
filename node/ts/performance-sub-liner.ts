@@ -28,6 +28,7 @@ function pushSubData(arraySub: { key: string; value: number[] }[]) {
       listSub.push(subItem);
     });
   });
+  console.log("listSub", listSub);
 }
 
 for (let i = 0; i < 10; i++) {
