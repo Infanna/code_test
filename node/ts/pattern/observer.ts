@@ -2,20 +2,19 @@ class Observer {
   private data: string[] = [];
   private value: any;
   private pipeFunction;
-  private subFunctions = [];
+  private ObserverFunctions = [];
 
   signal(subject) {
     const status = subject.getStatus();
     this.data.push(status);
 
-    if (this.pipeFunction) {
-      this.pipeFunction();
-    } else {
+    if (!this.pipeFunction) {
       this.value = this.data[this.data.length - 1];
     }
-    if (this.subFunctions.length > 0) {
-      this.subFunctions.forEach((subFunction) => {
-        subFunction(this.value);
+    if (this.ObserverFunctions.length > 0) {
+      this.ObserverFunctions.forEach((ObserverFunction) => {
+        ObserverFunction.pipeFunction();
+        ObserverFunction.subFunction(this.value);
       });
     }
   }
@@ -35,7 +34,10 @@ class Observer {
   }
 
   subscribe(subFunction: Function) {
-    this.subFunctions.push(subFunction);
+    this.ObserverFunctions.push({
+      subFunction: subFunction,
+      pipeFunction: this.pipeFunction,
+    });
   }
 }
 
@@ -77,7 +79,7 @@ subject.update("test1");
 // observer2.pipe("all").subscribe((value) => {
 //   console.log(value);
 // });
-observer3.subscribe((value) => {
+observer3.pipe("firstValueFrom").subscribe((value) => {
   console.log("yyy" + value);
 });
 observer3.subscribe((value) => {
