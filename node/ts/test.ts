@@ -1,23 +1,27 @@
-import { Subject, combineLatest } from "rxjs";
+// function myFunction(age, test) {
+//   console.log(this.name);
+//   console.log("age", age);
+//   console.log("test", test);
+// }
 
-const mobileCareCreated$ = new Subject<boolean>();
-const packageCreated$ = new Subject<boolean>();
-mobileCareCreated$.next(true);
+// const obj1 = { name: "A", myFunction };
+// const obj2 = { name: "B", myFunction };
 
-function onListen() {
-//   console.log("xxx");
+// const array = [obj1.myFunction, obj2.myFunction];
 
-  combineLatest([mobileCareCreated$, packageCreated$]).subscribe((res) => {
-    console.log('res', res);
-    
-    const [careCreated, packageCreated] = res;
-    console.log("careCreated", careCreated);
-    console.log("packageCreated", packageCreated);
-  });
+// array.forEach((item) => {
+//   item.call(this, 25, 2);
+//   item.arguments[1] = 5;
+// });
+
+const x = findMax(1, 123, 500, 115, 44, 88);
+
+function findMax() {
+  let max = -Infinity;
+  for (let i = 0; i < arguments.length; i++) {
+    if (arguments[i] > max) {
+      max = arguments[i];
+    }
+  }
+  return max;
 }
-// mobileCareCreated$.next(true);
-onListen();
-mobileCareCreated$.next(false);
-packageCreated$.next(true);
-// mobileCareCreated$.unsubscribe();
-// 

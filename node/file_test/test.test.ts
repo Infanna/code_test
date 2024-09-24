@@ -1,4 +1,4 @@
-import { muti } from '../ts/test'
+import { muti } from '../ts/logic/function-object'
 
 
 describe('test.ts', () => {
