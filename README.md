@@ -14,4 +14,4 @@ Automate testing
 Data pipeline
 - airflow
 
-test
+x:test
